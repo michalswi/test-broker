@@ -3,9 +3,9 @@
 # Declare variables to be passed into your templates.
 
 # Image to use
-image: local/web-server:v0.1.0
+image: local/web-server:v0.1.1
 # ImagePullPolicy; valid values are "IfNotPresent", "Never", and "Always"
-imagePullPolicy: Always
+imagePullPolicy: IfNotPresent
 # Whether the broker should also log to stderr instead of to files only
 alsoLogToStdErr: true
 # Certificate details to use for TLS. Leave blank to not use TLS

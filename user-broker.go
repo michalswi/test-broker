@@ -14,9 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// https://github.com/kubernetes-incubator/service-catalog/blob/master/contrib/cmd/user-broker/user-broker.go
-// https://github.com/prydonius/mariadb-broker/blob/master/vendor/github.com/kubernetes-incubator/service-catalog/contrib/cmd/user-broker/user-broker.go
-
 package main
 
 import (
@@ -30,9 +27,11 @@ import (
 	"syscall"
 
 	"github.com/golang/glog"
-	"github.com/kubernetes-incubator/service-catalog/contrib/pkg/broker/server"
-	"github.com/kubernetes-incubator/service-catalog/contrib/pkg/broker/user_provided/controller"
 	"github.com/kubernetes-incubator/service-catalog/pkg"
+	// "github.com/kubernetes-incubator/service-catalog/contrib/pkg/broker/server"
+	"./contrib/pkg/broker/server"
+	// "github.com/kubernetes-incubator/service-catalog/contrib/pkg/broker/user_provided/controller"
+	"./controller"
 )
 
 var options struct {
