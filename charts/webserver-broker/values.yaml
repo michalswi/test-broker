@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 # Image to use
-image: local/web-server:v0.1.1
+image: local/webserver-broker:v0.1.0
 # ImagePullPolicy; valid values are "IfNotPresent", "Never", and "Always"
 imagePullPolicy: IfNotPresent
 # Whether the broker should also log to stderr instead of to files only
