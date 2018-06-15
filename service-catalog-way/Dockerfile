@@ -1,6 +1,9 @@
 #docker build -t local/webserver-broker:v0.1.0 .
 FROM golang:1.8
 
+# ENV http_proxy=...
+# ENV https_proxy=...
+
 RUN go get github.com/golang/glog
 RUN go get github.com/gorilla/mux
 RUN go get github.com/kubernetes-incubator/service-catalog/contrib/pkg/broker/server
@@ -8,8 +11,8 @@ RUN go get github.com/kubernetes-incubator/service-catalog/contrib/pkg/broker/co
 RUN go get github.com/kubernetes-incubator/service-catalog/contrib/pkg/broker/user_provided/controller
 RUN go get github.com/kubernetes-incubator/service-catalog/pkg
 
-# RUN git clone https://github.com/kubernetes-incubator/service-catalog.git
-ADD ./service-catalog /service-catalog
+RUN git clone https://github.com/kubernetes-incubator/service-catalog.git
+# ADD ./service-catalog /service-catalog
 ADD ./charts/webserver-broker /service-catalog
 ADD ./controller/controller.go /service-catalog/contrib/pkg/broker/user_provided/controller/controller.go
 

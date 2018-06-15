@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: testbroker-deployment
+  namespace: testbroker
+spec:
+  selector:
+    matchLabels:
+      app: testbroker
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: testbroker
+    spec:
+      containers:
+      - name: testbroker
+        image: local/run-broker:v0.1.0
+        # --env, like in 'docker --env PORT=9999'
+        # env:
+        # - name: PORT
+        #   value: "9999"
+        ports:
+        - containerPort: 5000
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: testbroker-service
+  namespace: testbroker
+spec:
+  selector:
+    app: testbroker
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 5000

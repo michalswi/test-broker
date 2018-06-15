@@ -1,0 +1,12 @@
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ClusterServiceBroker
+metadata:
+  name: testbroker
+spec:
+  # url: your_ip where docker container with SB is running
+  url: http://testbroker-service.testbroker.svc.cluster.local
+  authInfo:
+    basic:
+      secretRef:
+        namespace: default
+        name: test-secret
