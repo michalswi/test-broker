@@ -16,10 +16,6 @@ spec:
       containers:
       - name: testbroker
         image: local/run-broker:v0.1.0
-        # --env, like in 'docker --env PORT=9999'
-        # env:
-        # - name: PORT
-        #   value: "9999"
         ports:
         - containerPort: 5000
 ---
@@ -33,5 +29,5 @@ spec:
     app: testbroker
   ports:
   - name: http
-    port: 8080
+    port: 12345
     targetPort: 5000

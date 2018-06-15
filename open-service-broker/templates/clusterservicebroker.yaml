@@ -3,8 +3,8 @@ kind: ClusterServiceBroker
 metadata:
   name: testbroker
 spec:
-  # url: your_ip where docker container with SB is running
-  url: http://testbroker-service.testbroker.svc.cluster.local
+  # url: <ip>:<port> -> ip is you localIP where docker container with SB is running
+  url: http://testbroker-service.testbroker.svc.cluster.local:12345/
   authInfo:
     basic:
       secretRef:

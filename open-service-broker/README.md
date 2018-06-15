@@ -24,4 +24,4 @@ $ curl -v -H "X-Broker-API-Version: 2.13" http://user:pass@localhost:8080/v2/cat
 ...
 {"services":[{"bindable":true,"description":"Example Service does nothing"
 ```
-More about Headers and API version [here](https://github.com/openservicebrokerapi/servicebroker/blob/v2.12/spec.md#api-version-header).
+More about Headers and API version [here](https://github.com/openservicebrokerapi/servicebroker/blob/v2.13/spec.md#api-version-header).
