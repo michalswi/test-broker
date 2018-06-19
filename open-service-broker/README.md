@@ -1,27 +1,38 @@
 ### Test Open Service Broker
 
-Open Broker API repo is [here](https://github.com/eruvanos/openbrokerapi).  
+Python implementation of Open Service Broker API repo is [here](https://github.com/eruvanos/openbrokerapi).  
 
-OB API python code is [here](https://pypi.org/project/openbrokerapi/).  
+OSB API python code is [here](https://pypi.org/project/openbrokerapi/).  
 
-OB API details are [here](http://openbrokerapi.readthedocs.io/en/latest/openbrokerapi.html).  
+OSB API details are [here](http://openbrokerapi.readthedocs.io/en/latest/openbrokerapi.html). 
 
-Templates are [here](./templates).  
+OSB API checker is [here](https://github.com/openservicebrokerapi/osb-checker).  
+
+Templates for kubernetes are [here](./templates).  
 
 Run deployment:  
 ```sh
 $ kubectl create namespace testbroker
+
+# add these values to templates/secret.yaml
+# https://kubernetes.io/docs/concepts/configuration/secret/
+
+$ echo -n 'username' | base64
+dXNlcm5hbWU=
+$ echo -n 'password' | base64
+cGFzc3dvcmQ=
+
 $ kubect create secret templates/secret.yaml
 $ kubectl create -f templates/testBroker.yaml
 ```
 
 Local tests, more details [here](https://github.com/openservicebrokerapi/servicebroker/blob/v2.13/spec.md#request):  
 ```sh
-$ docker run -d -p 8080:5000 local/run-broker:v0.1.0
-$ curl -v -H "X-Broker-API-Version: 2.12" http://user:pass@localhost:12345/v2/catalog
+$ docker run -d -p 5050:5000 local/run-broker:v0.1.0
+$ curl -v -H "X-Broker-API-Version: 2.12" http://user:pass@localhost:5050/v2/catalog
 ...
 HTTP/1.0 412 PRECONDITION FAILED
-$ curl -v -H "X-Broker-API-Version: 2.13" http://user:pass@localhost:12345/v2/catalog
+$ curl -v -H "X-Broker-API-Version: 2.13" http://user:pass@localhost:5050/v2/catalog
 ...
 {"services":[{"bindable":true,"description":"Example Service does nothing"
 ```
@@ -33,10 +44,5 @@ $ kubectl exec -n testbroker testbroker-deployment-7bc4ffd5c-lqc9p -- cat /etc/r
 nameserver 10.10.0.3
 search testbroker.svc.cluster.local svc.cluster.local cluster.local
 options ndots:5
-$ curl -v -H "X-Broker-API-Version: 2.13" http://user:pass@testbroker-service.testbroker.svc.cluster.local:12345/v2/catalog
+$ curl -v -H "X-Broker-API-Version: 2.13" http://user:pass@testbroker-service.testbroker.svc.cluster.local:5050/v2/catalog
 ```
-
-Failing broker registration in service catalog (openshift v3.9.0):  
-
-``message: 'Error fetching catalog. Error getting broker catalog: Status: 401; ErrorMessage:
-<nil>; Description: <nil>; ResponseError: invalid character ''C'' looking for beginning of value'``

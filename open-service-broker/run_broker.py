@@ -71,13 +71,17 @@ class ExampleServiceBroker(ServiceBroker):
 
 # or register blueprint to your own FlaskApp instance
 app = Flask(__name__)
-logger = basic_config()  # Use root logger with a basic configuration provided by openbrokerapi.log_utils
-openbroker_bp = api.get_blueprint(ExampleServiceBroker(), api.BrokerCredentials("user", "pass"), logger)
+# Use root logger with a basic configuration provided by openbrokerapi.log_utils
+logger = basic_config()  
+openbroker_bp = api.get_blueprint(ExampleServiceBroker(), api.BrokerCredentials(username="username", password="password"), logger)
+# openbroker_bp = api.get_blueprint(ExampleServiceBroker(), api.BrokerCredentials("username", "password"), logger)
+# if more than one service:
+# openbroker_bp = api.get_blueprint([ExampleServiceBroker(),...], api.BrokerCredentials(username="user", password="pass"), logger)
+
 app.register_blueprint(openbroker_bp)
 
-#default, port 5000
-app.run("0.0.0.0")
-
+# default port 5000 is exposed
+app.run("0.0.0.0", debug=True)
 # if __name__ == "__main__":
 #     app.run("0.0.0.0", 5000, True)
 
