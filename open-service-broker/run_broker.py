@@ -73,15 +73,16 @@ class ExampleServiceBroker(ServiceBroker):
 app = Flask(__name__)
 # Use root logger with a basic configuration provided by openbrokerapi.log_utils
 logger = basic_config()  
-openbroker_bp = api.get_blueprint(ExampleServiceBroker(), api.BrokerCredentials(username="username", password="password"), logger)
-# openbroker_bp = api.get_blueprint(ExampleServiceBroker(), api.BrokerCredentials("username", "password"), logger)
+openbroker_bp = api.get_blueprint(ExampleServiceBroker(), api.BrokerCredentials("username", "password"), logger)
 # if more than one service:
 # openbroker_bp = api.get_blueprint([ExampleServiceBroker(),...], api.BrokerCredentials(username="user", password="pass"), logger)
-
 app.register_blueprint(openbroker_bp)
 
 # default port 5000 is exposed
-app.run("0.0.0.0", debug=True)
+app.run("0.0.0.0")
+# when debug is enabled, it's failling in openshift
+# app.run("0.0.0.0", debug=True)
+
 # if __name__ == "__main__":
 #     app.run("0.0.0.0", 5000, True)
 

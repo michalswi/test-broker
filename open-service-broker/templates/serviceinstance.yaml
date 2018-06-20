@@ -1,0 +1,12 @@
+# TO BE DONE
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: testbroker-instance
+  namespace: test-ns
+spec:
+  clusterServiceClassExternalName: example-service
+  clusterServicePlanExternalName: small
+  # parameters:
+  #   param-1: value-1
+  #   param-2: value-2

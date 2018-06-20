@@ -19,7 +19,7 @@ $ curl -v -H "X-Broker-API-Version: 2.12" http://user:pass@localhost:5050/v2/cat
 HTTP/1.0 412 PRECONDITION FAILED
 $ curl -v -H "X-Broker-API-Version: 2.13" http://user:pass@localhost:5050/v2/catalog
 ...
-{"services":[{"bindable":true,"description":"Example Service does nothing"
+{"services":[{"bindable":true,"description":"Example Service does nothing"...
 ```
 More about Headers and API version [here](https://github.com/openservicebrokerapi/servicebroker/blob/v2.13/spec.md#api-version-header).
 

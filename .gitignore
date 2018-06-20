@@ -2,4 +2,7 @@ todo_test-broker.txt
 files
 service-catalog
 open-service-broker/sample_broker.py
+open-service-broker/sample_health_check.py
+open-service-broker/sample_health_check.pyc
 open-service-broker/run-broker.tar
+gitlab_test-broker/
