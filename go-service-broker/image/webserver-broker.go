@@ -24,6 +24,12 @@ import (
 // user-broker.go
 // https://github.com/kubernetes-incubator/service-catalog/blob/master/contrib/cmd/user-broker/user-broker.go
 
+// ServiceInstance, Binding etc.
+// https://github.com/kubernetes-incubator/service-catalog/tree/master/contrib/pkg/brokerapi
+
+// Service Plans etc.
+// https://github.com/kubernetes-incubator/service-catalog/blob/master/contrib/pkg/broker/user_provided/controller/controller.go
+
 type server struct {
 	controller controller.Controller
 }
