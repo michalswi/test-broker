@@ -2,9 +2,9 @@ todo_test-broker.txt
 
 files
 
-open-service-broker/my_sample_broker
+open-service-broker/my_sample_broker/sample_broker.py
 open-service-broker/my_sample_broker/sample_howto.txt
 open-service-broker/my_sample_broker/sample_health_check.pyc
-open-service-broker/my_sample_broker/run-broker.tar
+open-service-broker/my_sample_broker/sample-broker.tar
 
 gitlab_test-broker/

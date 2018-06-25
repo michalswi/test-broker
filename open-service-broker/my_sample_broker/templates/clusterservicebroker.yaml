@@ -1,0 +1,11 @@
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ClusterServiceBroker
+metadata:
+  name: samplebroker
+spec:
+  url: http://samplebroker-service.samplebroker.svc.cluster.local:5050/
+  authInfo:
+    basic:
+      secretRef:
+        namespace: samplebroker
+        name: test-secret

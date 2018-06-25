@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: samplebroker-template
+  namespace: samplebroker
+  annotations:
+    description: "Template to deploy SB Template"
+    iconClass: "icon-redis"
+    tags: "samplebroker-service,samplebroker"
+objects:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    name: open-samplebroker-template
+    namespace: samplebroker
+  spec:
+    containers:
+    - env:
+      name: samplebroker-master
+      image: local/sample-broker:v0.1.0
+      ports:
+      - containerPort: 5000
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: samplebroker-service
+    namespace: samplebroker
+    annotations:
+      description: "Expose service broker port"
+  spec:
+    ports:
+    - name: http
+      port: 5050
+      targetPort: 5000
+    selector:
+      app: samplebroker-template
+labels:
+  template: samplebroker-template

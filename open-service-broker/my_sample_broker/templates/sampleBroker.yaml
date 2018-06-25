@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: open-samplebroker-template
+  namespace: samplebroker
+spec:
+  selector:
+    matchLabels:
+      app: samplebroker
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: samplebroker
+    spec:
+      containers:
+      - name: samplebroker-master
+        image: local/sample-broker:v0.1.0
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: samplebroker-service
+  namespace: samplebroker
+  annotations:
+      description: "Expose service broker port"
+spec:
+  ports:
+  - name: http
+    port: 5050
+    targetPort: 5000
+  selector:
+    app: samplebroker
