@@ -11,5 +11,6 @@ WORKDIR /app
 
 ADD sample_broker.py sample_broker.py
 ADD sample_health_check.py sample_health_check.py
+ADD templates/base templates/base
 
 ENTRYPOINT ["./sample_broker.py"]

@@ -60,5 +60,53 @@ $ oc get clusterservicebrokers samplebroker -o yaml
 # you should see two services available: test-service1 & test-service2
 oc delete clusterservicebrokers samplebroker
 
-[in progress..]
+# ClusterServiceClass
+$ oc get clusterserviceclasses -o=custom-columns=NAME:.metadata.name,EXTERNAL\ NAME:.spec.externalName
+NAME                                   EXTERNAL NAME
+1111                                   test-service1
+2222                                   test-service2
+
+# ClusterServicePlans
+$ oc get clusterserviceplans -o=custom-columns=NAME:.metadata.name,EXTERNAL\ NAME:.spec.externalName
+NAME                                   EXTERNAL NAME
+1111-1                                 small-plan
+1111-2                                 medium-plan
+430d4bde-0270-4060-a816-5b44e8db93f5   workspace-plan
+
+# ServiceInstance
+$ oc create namespace sample-ns
+$ oc create -f serviceinstance.yaml
+$ oc get serviceinstances -n sample-ns samplebroker-instance -o yaml
+
+# ServiceBinding
+$ oc create -f servicebinding.yaml
+$ oc get servicebindings -n sample-ns samplebroker-binding -o yaml
+$ oc get secrets -n sample-ns
+NAME                       TYPE                                  DATA      AGE
+samplebroker-binding       Opaque                                0         2m
+
+# Check
+
+# log in to openshift UI -> samplebroker -> Overview -> test-service2 -> link to Dashboards
+# OR
+$ curl -H "X-Broker-API-Version: 2.13" http://username:password@samplebroker-service.samplebroker.svc.cluster.local:5050/sample-service/d618a501-ddca-4b6b-a450-9b5016bb3446
+{"get_instance_id":"d618a501-ddca-4b6b-a450-9b5016bb3446"}
+
+$ curl -H "X-Broker-API-Version: 2.13" http://username:password@samplebroker-service.samplebroker.svc.cluster.local:5050/sample-service/dashboard/d618a501-ddca-4b6b-a450-9b5016bb3446
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard</title>
+  </head>
+  <br><body>
+    Welcome in dashboard..
+  </body>
+</html>
+
+$ curl -H "X-Broker-API-Version: 2.13" http://username:password@samplebroker-service.samplebroker.svc.cluster.local:5050/sample-service/d618a501-ddca-4b6b-a450-9b5016bb3446/test-service2-lpvz8-jjdvd
+{"binding_id":"test-service2-lpvz8-jjdvd","instance_id":"d618a501-ddca-4b6b-a450-9b5016bb3446"}
+
+# DELETE [in progress]
+$ oc delete serviceinstances -n sample-ns samplebroker-instance
+$ oc delete clusterservicebrokers samplebroker
 ```
