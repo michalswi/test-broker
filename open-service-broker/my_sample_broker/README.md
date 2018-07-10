@@ -71,12 +71,14 @@ $ oc get clusterserviceplans -o=custom-columns=NAME:.metadata.name,EXTERNAL\ NAM
 NAME                                   EXTERNAL NAME
 1111-1                                 small-plan
 1111-2                                 medium-plan
-430d4bde-0270-4060-a816-5b44e8db93f5   workspace-plan
+2222-1                                 workspace-plan
 
 # ServiceInstance
 $ oc create namespace sample-ns
-$ oc create -f serviceinstance.yaml
+$ oc create -f serviceinstance_service1.yaml
+oc delete -f serviceinstance_service1.yaml
 $ oc get serviceinstances -n sample-ns samplebroker-instance -o yaml
+oc delete serviceinstances -n sample-ns samplebroker-instance
 
 # ServiceBinding
 $ oc create -f servicebinding.yaml
@@ -87,8 +89,13 @@ samplebroker-binding       Opaque                                0         2m
 
 # Check
 
-# log in to openshift UI -> samplebroker -> Overview -> test-service2 -> link to Dashboards
+$ curl -v -H "X-Broker-API-Version: 2.13" http://username:password@samplebroker-service.samplebroker.svc.cluster.local:5050/v2/catalog
+...
+"dashboard_client":{"id":"d618a501-ddca-4b6b-a450-9b5016bb3446","redirect_uri":"https://github.com/michalswi/","secret":"secret1"}
+...
+
 # OR
+# log in to openshift UI -> samplebroker -> Overview -> test-service2 -> link to Dashboards
 $ curl -H "X-Broker-API-Version: 2.13" http://username:password@samplebroker-service.samplebroker.svc.cluster.local:5050/sample-service/d618a501-ddca-4b6b-a450-9b5016bb3446
 {"get_instance_id":"d618a501-ddca-4b6b-a450-9b5016bb3446"}
 

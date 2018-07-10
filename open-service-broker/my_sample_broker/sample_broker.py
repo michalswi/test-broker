@@ -22,7 +22,6 @@ app.register_blueprint(health_check)
 service_port = os.getenv('PORT', '5000')
 service_host = 'localhost'
 
-
 #-------------------
 # https://github.com/openservicebrokerapi/servicebroker/blob/v2.13/spec.md#api-version-header
 X_BROKER_API_MAJOR_VERSION = 2
@@ -37,6 +36,7 @@ service_dashboard = "http://{}:{}/sample-service/dashboard/".format(service_host
 
 #-------------------
 # Plans related to ClusterServicePlan
+# IF only ONE service_plan per service there won't be PLAN when selecting INFORMATION -> CONFIGURATION
 service_plan11 = {
     "id": "1111-1",
     "name": "small-plan",
@@ -48,7 +48,8 @@ service_plan12 = {
     "id": "1111-2",
     "name": "medium-plan",
     "description": "Sample medium plan description",
-    "free": True    
+    "free": True,
+    "metadata": {}   
 }
 
 # uuid 
@@ -56,25 +57,47 @@ service_plan12 = {
 # -> https://stackoverflow.com/questions/10867405/generating-v5-uuid-what-is-name-and-namespace
 # "id": "{}".format(uuid.uuid4()),  ---> if openshift instance will be restared new uuid will be generated..
 # solution could be use uuid3 or uuid5
-service_plan13 = {
-    "id": "430d4bde-0270-4060-a816-5b44e8db93f5",
-    "name": "workspace-plan",
-    "description": "Sample workspace plan description",
-    "free": True    
-}
 
-# TO BE DONE
+# schemas
+# https://github.com/openservicebrokerapi/servicebroker/blob/master/spec.md#schemas-object
+# https://apidocs.cloudfoundry.org/2.1.0/service_plans/list_all_service_plans.html
 # https://github.com/kubernetes-incubator/service-catalog/blob/master/contrib/pkg/broker/user_provided/controller/controller.go
-# service_plan21 = {
-#     "id": "2222",
-#     "name": "workspace-plan",
-#     "description": "Sample workspace plan description",
-#     "free": True,
-#     "schemas" : {
-#         "param-1": [{"description": "First input parameter","type": "string"}],
-#         "param-2": [{"description": "Second input parameter","type": "string"}]
-#     }
-# }
+
+service_plan21 = {
+    "id": "2222-1",
+    "name": "workspace-plan",
+    "description": "Service plan description",
+    "free": True,
+    "schemas": {
+        "service_instance": { 
+            "create": {
+                "parameters": {
+                    "$schema": "http://json-schema.org/draft-04/schema#",
+                    "type": "object",
+                    "properties": {
+                        "MySpace" :{
+                            "name": "MYSPACE",
+                            "description": "The OpenShift TestSpace",
+                            "value": "openshift",
+                            "type": "string"
+                        },
+                        "Test" :{
+                            "name": "TEST",
+                            "description": "Test test",
+                            "value": "",
+                            "type": "string",
+                            "required": True
+                        }                        
+                    }
+                }
+            },
+            "update": {}
+        },
+        "service_binding": {
+            "create": {}
+        }
+    }    
+}
 
 # Services related to ClusterServiceClass
 service1 = {
@@ -88,22 +111,22 @@ service1 = {
 service2 = {
     'id': '2222',
     'name': 'test-service2',
-    'description': 'Workspace tests',
+    'description': 'Service to test Workspaces API',
     'bindable': True,
-    'tags': ['private'], 
-    'plans': [service_plan13],
+    'tags': ['private', 'workspace'], 
+    'plans': [service_plan21],
+    'metadata' : {
+        'displayName': 'test-service2',
+        'longDescription': 'Service description',
+        'providerDisplayName': 'michalswi', 
+        'documentationUrl': 'https://github.com/openservicebrokerapi/servicebroker/blob/v2.13/spec.md',
+        'supportUrl': 'https://github.com/michalswi/test-broker/issues'
+    },    
     'dashboard_client': {
         'id': uuid.uuid4(), 
         'secret': 'secret1',
         'redirect_uri': 'https://github.com/michalswi/' 
-        },
-    'metadata' : {
-        'displayName': 'test-service2',
-        'longDescription': 'Some long description',
-        'providerDisplayName': 'michalswi', 
-        'documentationUrl': 'https://github.com/openservicebrokerapi/servicebroker/blob/v2.13/spec.md',
-        'supportUrl': 'https://github.com/michalswi/test-broker/issues'
-        }
+    }
 }
 
 # my_services = {"services": [service1]}

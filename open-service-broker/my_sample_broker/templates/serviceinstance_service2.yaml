@@ -6,6 +6,3 @@ metadata:
 spec:
   clusterServiceClassExternalName: test-service2
   clusterServicePlanExternalName: workspace-plan
-  parameters:
-    param-1: value-1
-    param-2: value-2
